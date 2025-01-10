@@ -32,8 +32,19 @@ class PlateCalculator {
     // Initial Estimate
     double initialPlateCount = totalSurfaceArea / usablePlateArea;
 
-    // Round Up to the nearest whole number
-    int totalPlatesRequired = initialPlateCount.ceil();
+    // Adjust Plate Count based on specified ranges
+    double adjustedPlateCount;
+    if (initialPlateCount <= 0.5) {
+      adjustedPlateCount = 0.5;
+    } else if (initialPlateCount <= 1) {
+      adjustedPlateCount = 1.0;
+    } else if (initialPlateCount <= 1.5) {
+      adjustedPlateCount = 1.5;
+    } else if (initialPlateCount <= 2) {
+      adjustedPlateCount = 2.0;
+    } else {
+      adjustedPlateCount = (initialPlateCount * 2).ceil() / 2.0; // Round up to nearest 0.5
+    }
 
     // Return the results as a map
     return {
@@ -41,7 +52,7 @@ class PlateCalculator {
       "petal_area": petalArea,
       "total_surface_area": totalSurfaceArea,
       "usable_plate_area": usablePlateArea,
-      "total_plates_required": totalPlatesRequired,
+      "total_plates_required": adjustedPlateCount,
     };
   }
 }
